@@ -9,7 +9,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.scientia-publish-ucc.azurewebsites.net/*"],
-      "js": ["bundle.js"]
+      "js": ["dist/bundle.js"]
     }
   ]
 
