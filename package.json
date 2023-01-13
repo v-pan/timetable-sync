@@ -1,12 +1,13 @@
 {
   "name": "ucc-timetables",
   "version": "0.1",
-  "main": "index.js",
+  "main": "bundle.js",
   "author": "Victor Panayotov <victorpanayotov@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/local-auth": "2.1.0",
     "fetch-inject": "^3.2.0",
-    "googleapis": "105"
+    "googleapis": "105",
+    "parcel": "^2.8.2"
   }
 }
