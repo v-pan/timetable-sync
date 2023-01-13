@@ -1,6 +1,6 @@
 {
 
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "ucc-timetable",
   "version": "0.1",
 
@@ -9,7 +9,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.scientia-publish-ucc.azurewebsites.net/*"],
-      "js": ["dist/bundle.js"]
+      "js": ["index.ts"]
     }
   ]
 

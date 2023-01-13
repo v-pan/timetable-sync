@@ -3,7 +3,6 @@
 import { authenticate } from "@google-cloud/local-auth";
 import { google } from "googleapis";
 
-
 /**
  * 
  * @param {MouseEvent} e 
@@ -25,9 +24,9 @@ setTimeout(() => {
     </button>
     </div>`;
 
-    let customButton = doc.createElement("div");
-    customButton.innerHTML = buttonHtml;
-    customButton = customButton.firstChild;
+    const dummyDiv = doc.createElement("div");
+    dummyDiv.innerHTML = buttonHtml;
+    const customButton = dummyDiv.firstChild as any;
     customButton.firstChild.addEventListener("click", (e) => onSync(e))
 
     console.log("Created custom button:", customButton);
