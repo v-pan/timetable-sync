@@ -3,5 +3,8 @@
   "version": "0.1",
   "main": "index.js",
   "author": "Victor Panayotov <victorpanayotov@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "fetch-inject": "^3.2.0"
+  }
 }
