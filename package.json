@@ -1,7 +1,7 @@
 {
   "name": "ucc-timetables",
   "version": "0.1",
-  "main": "bundle.js",
+  "main": "dist/bundle.js",
   "author": "Victor Panayotov <victorpanayotov@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -9,5 +9,8 @@
     "fetch-inject": "^3.2.0",
     "googleapis": "105",
     "parcel": "^2.8.2"
+  },
+  "scripts": {
+    "build": "parcel build src/index.js"
   }
 }
