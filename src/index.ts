@@ -1,9 +1,18 @@
 // document.body.style.border = "5px solid red";
 
-let intervalId: number | undefined = undefined;
+import { Message } from "./message";
 
-const onSync = (e: MouseEvent) => {
-    
+let intervalId: number | undefined = undefined;
+let accessToken: string | undefined = undefined;
+
+browser.runtime.onMessage.addListener((message: Message, sender, sendResponse) => {
+    console.log("Message receieved:", message)
+    if (message.type == "auth_finished") {
+        accessToken = message.token;
+    }
+});
+
+const onSync = async (e: MouseEvent) => {
 }
 
 const findRightToolbar = () => {
@@ -16,6 +25,7 @@ const findRightToolbar = () => {
 
 const createSyncButton = () => {
     if (document.getElementById("custom-toolbar-button-322d51ce") != undefined) {
+        clearInterval(intervalId);
         return;
     }
 
@@ -30,7 +40,7 @@ const createSyncButton = () => {
     const dummyDiv = doc.createElement("div");
     dummyDiv.innerHTML = buttonHtml;
     const customButton = dummyDiv.firstChild as any;
-    customButton.firstChild.addEventListener("click", (e) => onSync(e))
+    customButton.addEventListener("click", (e) => onSync(e))
 
     console.log("Created custom button:", customButton);
 
@@ -46,6 +56,5 @@ intervalId = setInterval(() => {
     const toolbar = findRightToolbar();
     if (toolbar != undefined) {
         createSyncButton();
-        
     }
 }, 500);
