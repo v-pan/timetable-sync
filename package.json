@@ -1,0 +1,7 @@
+{
+  "name": "ucc-timetables",
+  "version": "0.1",
+  "main": "index.js",
+  "author": "Victor Panayotov <victorpanayotov@gmail.com>",
+  "license": "MIT"
+}
