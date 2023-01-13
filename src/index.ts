@@ -15,9 +15,13 @@ const findRightToolbar = () => {
 }
 
 const createSyncButton = () => {
+    if (document.getElementById("custom-toolbar-button-322d51ce") != undefined) {
+        return;
+    }
+
     const doc = document;
 
-    const buttonHtml = `<div id="toolbar-item-lanes-mode" class="toolbar-item-content e-tbar-btn e-tbtn-txt e-control e-btn e-lib" style="">
+    const buttonHtml = `<div id="custom-toolbar-button-322d51ce" class="toolbar-item-content e-tbar-btn e-tbtn-txt e-control e-btn e-lib" style="">
     <button class="e-tbar-btn e-tbtn-txt e-control e-btn e-lib" type="button" id="e-tbr-btn_5" style="width: auto;" tabindex="-1" aria-label="Sync to Calendar">
         <span class="e-tbar-btn-text">Sync to Calendar</span>
     </button>
