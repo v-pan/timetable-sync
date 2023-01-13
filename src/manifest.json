@@ -1,11 +1,17 @@
 {
 
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "ucc-timetable",
   "version": "0.1",
 
   "description": "",
 
+  "browser_action": {
+    "default_title": "Timetable Sync",
+    "default_popup": "popup/popup.html",
+    "browser_style": true
+  },
+  "permissions": ["identity"],
   "content_scripts": [
     {
       "matches": ["*://*.scientia-publish-ucc.azurewebsites.net/*"],

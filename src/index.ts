@@ -1,22 +1,21 @@
 // document.body.style.border = "5px solid red";
 
-import { authenticate } from "@google-cloud/local-auth";
-import { google } from "googleapis";
+let intervalId: number | undefined = undefined;
 
-/**
- * 
- * @param {MouseEvent} e 
- */
-const onSync = (e) => {
+const onSync = (e: MouseEvent) => {
     
 }
 
-// TODO: Poll until the elements we want to change exist
-setTimeout(() => {
-    /**
-     * @type Document
-     */
-    const doc = document
+const findRightToolbar = () => {
+    const schedulerToolbar = document.getElementsByClassName("scheduler-container")[0].getElementsByClassName("e-schedule-toolbar")[0]; // Second schedule toolbar
+    console.log("Found toolbar:", schedulerToolbar);
+    const rightToolbar = schedulerToolbar.getElementsByClassName("e-toolbar-right")[0];
+
+    return rightToolbar
+}
+
+const createSyncButton = () => {
+    const doc = document;
 
     const buttonHtml = `<div id="toolbar-item-lanes-mode" class="toolbar-item-content e-tbar-btn e-tbtn-txt e-control e-btn e-lib" style="">
     <button class="e-tbar-btn e-tbtn-txt e-control e-btn e-lib" type="button" id="e-tbr-btn_5" style="width: auto;" tabindex="-1" aria-label="Sync to Calendar">
@@ -31,23 +30,18 @@ setTimeout(() => {
 
     console.log("Created custom button:", customButton);
 
-    const schedulerToolbar = doc.getElementsByClassName("scheduler-container")[0].getElementsByClassName("e-schedule-toolbar")[0]; // Second schedule toolbar
-    console.log("Found toolbar:", schedulerToolbar);
-    const rightToolbar = schedulerToolbar.getElementsByClassName("e-toolbar-right")[0];
+    const rightToolbar = findRightToolbar();
 
     console.log("Found right side of toolbar:", rightToolbar);
     rightToolbar.appendChild(customButton);
-}, 5000);
+    clearInterval(intervalId);
+}
 
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     console.log("Page loaded.")
-    // const monthDiv = document.getElementsByClassName("e-month")[0];
-    // console.log(monthDiv);
-    // const monthButton = monthDiv.querySelector("button");
-    // console.log(monthButton);
-    // monthButton.click();
-// });
-
-
+// Check that toolbar exists
+intervalId = setInterval(() => {
+    const toolbar = findRightToolbar();
+    if (toolbar != undefined) {
+        createSyncButton();
         
+    }
+}, 500);
