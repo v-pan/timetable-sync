@@ -1,5 +1,7 @@
 // document.body.style.border = "5px solid red";
 
+import {} from "https://apis.google.com/js/api.js"
+
 /**
  * 
  * @param {MouseEvent} e 
