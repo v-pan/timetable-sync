@@ -6,7 +6,7 @@ let intervalId: number | undefined = undefined;
 let accessToken: string | undefined = undefined;
 
 browser.runtime.onMessage.addListener((message: Message, sender, sendResponse) => {
-    console.log("Message receieved:", message)
+    // console.log("Message receieved:", message)
     if (message.type == "auth_finished") {
         accessToken = message.token;
     }

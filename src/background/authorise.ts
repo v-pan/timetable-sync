@@ -3,7 +3,8 @@
 import { CLIENT_ID, API_KEY } from "../../secrets/keys";
 const SCOPES = [
     // "calendar.app.created",
-    "https://www.googleapis.com/auth/calendar.events" // Ideally won't use this one
+    "https://www.googleapis.com/auth/calendar.events",
+    "https://www.googleapis.com/auth/calendar.readonly"
 ];
 const REDIRECT_URL = browser.identity.getRedirectURL();
 const AUTH_URL = `https://accounts.google.com/o/oauth2/auth\
