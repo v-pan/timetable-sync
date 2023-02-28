@@ -18,9 +18,14 @@
   "permissions": ["identity"],
   "content_scripts": [
     {
-      "matches": ["*://*.scientia-publish-ucc.azurewebsites.net/*"],
+      "matches": ["*://*.scientia-publish-ucc.azurewebsites.net/timetables*"],
       "js": ["index.ts"]
     }
-  ]
+  ],
+  "applications": {
+    "gecko": {
+      "id": "timetable-sync@paranoidcake"
+    }
+  }
 
 }

@@ -25,3 +25,7 @@ const request = async (accessToken: string, options?: RequestInit) => {
 
     return fetch(request)
 }
+
+const listEvents = async (accessToken: string) => {
+    
+}
