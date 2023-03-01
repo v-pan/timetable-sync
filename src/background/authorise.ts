@@ -62,3 +62,11 @@ export const getAccessToken = async () => {
     const redirectUrl = await authorise();
     return validate(redirectUrl);
 }
+
+// TODO: Allow revoking access from within the extension
+// export const revokeAccessToken = async () => {
+//     const revokeEndpoint = "https://oauth2.googleapis.com/revoke";
+//     const form = document.createElement("form");
+//     form.setAttribute("method", "post");
+
+// }

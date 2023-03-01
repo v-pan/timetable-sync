@@ -1,8 +1,7 @@
 import { ListParams } from "./api/types/calendarList";
 
 export const sendToBackend = async (message: Message, options?: browser.runtime._SendMessageOptions) => {
-    const response = await browser.runtime.sendMessage(message, options);
-    return response;
+    await browser.runtime.sendMessage(message, options);
 }
 
 /**
@@ -26,8 +25,26 @@ export const sendToFrontend = async (message: Message, options?: browser.tabs._S
     return responses;
 }
 
-export type Message = 
-{ type: "auth_finished" } |
-{ type: "auth_start" }
+export const backendRequest = (request: APIRequest) => {
+    const port = browser.runtime.connect();
 
-export type APIRequest = {resource: "calendarList", method: "list", params?: ListParams}
+    let promise = new Promise((resolve, _) => {
+        const callback = response => resolve(response);
+
+        port.onMessage.addListener(callback);
+    });
+
+    // Send the request to the backend
+    port.postMessage({ type: "request", body: request });
+
+    return promise;
+}
+
+export type Message = { type: "auth", body: AuthBody } | { type: "request", body: APIRequest }
+
+export type AuthBody = 
+{ status: "auth_finished" } |
+{ status: "auth_start" } | 
+{ status: "auth_revoked" }
+
+export type APIRequest = { resource: "calendarList", method: "list", params?: ListParams }

@@ -1,28 +1,31 @@
-import { Message, APIRequest } from "./message";
+import { backendRequest, Message } from "./message";
 
 const CUSTOM_DIV_ID = "custom-toolbar-button-322d51ce";
 let intervalId: number | undefined = undefined;
 let hasAuth: boolean = false;
 
-const makeRequest = (request: APIRequest) => {
-    const port = browser.runtime.connect();
-
-    let promise = new Promise((resolve, _) => {
-        const callback = response => resolve(response);
-
-        port.onMessage.addListener(callback);
-    });
-
-    // Send the request to the backend
-    port.postMessage(request);
-
-    return promise;
-}
-
 browser.runtime.onMessage.addListener((message: Message, sender, sendResponse) => {
-    console.log("Message receieved:", message)
-    if (message.type == "auth_finished") {
-        
+    const syncButton = document.getElementById(CUSTOM_DIV_ID);
+
+    if(message.type === "auth"){
+        switch (message.body.status) {
+            case "auth_finished":
+                hasAuth = true;
+                
+                if (syncButton) {
+                    syncButton.hidden = false;
+                }
+                
+                break;
+            case "auth_revoked":
+                hasAuth = false;
+                
+                if (syncButton) {
+                    syncButton.hidden = true;
+                }
+
+                break;
+        }
     }
 });
 
@@ -32,7 +35,7 @@ const onSync = async (e: MouseEvent, src: HTMLButtonElement) => {
         return;
     }
 
-    const json = await makeRequest({resource: "calendarList", method: "list", params: {"maxResults": 1, "minAccessRole": "freeBusyReader"}});
+    const json = await backendRequest({resource: "calendarList", method: "list", params: {"maxResults": 1, "minAccessRole": "freeBusyReader"}});
 
     console.log(json);
 }
@@ -59,7 +62,7 @@ const createSyncButton = () => {
 
     const doc = document;
 
-    const buttonHtml = `<div id="${CUSTOM_DIV_ID}" class="toolbar-item-content e-tbar-btn e-tbtn-txt e-control e-btn e-lib" style="">
+    const buttonHtml = `<div id="${CUSTOM_DIV_ID}" hidden="true" class="toolbar-item-content e-tbar-btn e-tbtn-txt e-control e-btn e-lib" style="">
     <button class="e-tbar-btn e-tbtn-txt e-control e-btn e-lib" type="button" id="e-tbr-btn_5" style="width: auto;" tabindex="-1" aria-label="Sync to Calendar">
         <span class="e-tbar-btn-text">Sync to Calendar</span>
     </button>
