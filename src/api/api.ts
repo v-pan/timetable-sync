@@ -4,28 +4,38 @@
  * Playground tool at https://developers.google.com/oauthplayground/
  */
 
-const REQUEST_BASE_URL = "https://www.googleapis.com/calendar/v3/";
+const REQUEST_BASE_URL = "https://www.googleapis.com/calendar/v3";
 
-const buildRequest = (accessToken: string, options: RequestInit = {}) => {
+export const request = async (accessToken: string, relativeUrl: string, params?: any, options: RequestInit = {}) => {
+    if (relativeUrl.startsWith("/")) {
+        relativeUrl = relativeUrl.slice(1);
+    }
 
-    const requestUrl = REQUEST_BASE_URL; // TODO: Build appropriate request url from func params
+    const requestUrl = new URL(`${REQUEST_BASE_URL}/${relativeUrl}`);
 
-    const requestHeaders = new Headers();
+    // Append request parameters
+    if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+            switch (typeof(value)) {
+                case "number":
+                    requestUrl.searchParams.append(key, value.toString());
+                    break;
+                case "string":
+                    requestUrl.searchParams.append(key, value);
+                    break;
+                default:
+                    throw Error("Type not serialisable");
+            }
+        });
+    }
+
+    // Append access token to request header
+    const requestHeaders = new Headers(options.headers);
     requestHeaders.append("Authorization", `Bearer ${accessToken}`);
-
+    // requestHeaders.append("Access-Control-Allow-Origin", "*");
     options.headers = requestHeaders;
 
     const request = new Request(requestUrl, options);
 
-    return request;
-}
-
-const request = async (accessToken: string, options?: RequestInit) => {
-    const request = buildRequest(accessToken, options)
-
     return fetch(request)
-}
-
-const listEvents = async (accessToken: string) => {
-    
 }

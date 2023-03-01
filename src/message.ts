@@ -1,5 +1,9 @@
+import { v4 as generateUUID } from "uuid";
+import { ListParams } from "./api/types/calendarList";
+
 export const sendToBackend = async (message: Message, options?: browser.runtime._SendMessageOptions) => {
-    return browser.runtime.sendMessage(message, options);
+    const response = await browser.runtime.sendMessage(message, options);
+    return response;
 }
 
 /**
@@ -24,5 +28,9 @@ export const sendToFrontend = async (message: Message, options?: browser.tabs._S
 }
 
 export type Message = 
-{ type: "auth_finished", token: string } | 
-{ type: "auth_start" }
+{ type: "auth_finished", accessToken: string } |
+{ type: "auth_start" } |
+{ type: "request", id: string, body: Request} |
+{ type: "response", id: string, body: any }
+
+export type Request = {resource: "calendarList", method: "list", params?: ListParams}
