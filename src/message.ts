@@ -28,9 +28,7 @@ export const sendToFrontend = async (message: Message, options?: browser.tabs._S
 }
 
 export type Message = 
-{ type: "auth_finished", accessToken: string } |
-{ type: "auth_start" } |
-{ type: "request", id: string, body: Request} |
-{ type: "response", id: string, body: any }
+{ type: "auth_finished" } |
+{ type: "auth_start" }
 
-export type Request = {resource: "calendarList", method: "list", params?: ListParams}
+export type APIRequest = {resource: "calendarList", method: "list", params?: ListParams}
