@@ -11,10 +11,9 @@ browser.runtime.onMessage.addListener(async (message: Message, sender, sendRespo
             case "auth_start":
                 if (accessToken == undefined) {
                     accessToken = await getAccessToken();
-                    await sendToFrontend({ type: "auth", body: { status: "auth_finished" }});
-                } else {
-                    await sendToFrontend({ type: "auth", body: { status: "auth_finished" }});
                 }
+
+                await sendToFrontend({ type: "auth", body: { status: "auth_finished" }});
                 break;
             case "auth_revoked":
                 accessToken = undefined;

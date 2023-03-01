@@ -1,4 +1,4 @@
-import { ListParams } from "./api/types/calendarList";
+import { CalendarListEntry, ListParams } from "./api/types/calendarList";
 
 export const sendToBackend = async (message: Message, options?: browser.runtime._SendMessageOptions) => {
     await browser.runtime.sendMessage(message, options);
@@ -40,7 +40,7 @@ export const backendRequest = (request: APIRequest) => {
     return promise;
 }
 
-export type Message = { type: "auth", body: AuthBody } | { type: "request", body: APIRequest }
+export type Message = { type: "auth", body: AuthBody } | { type: "request", body: APIRequest } | { type: "calendar_select", body: { listEntry: CalendarListEntry }}
 
 export type AuthBody = 
 { status: "auth_finished" } |

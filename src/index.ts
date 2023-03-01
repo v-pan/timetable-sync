@@ -5,6 +5,7 @@ let intervalId: number | undefined = undefined;
 let hasAuth: boolean = false;
 
 browser.runtime.onMessage.addListener((message: Message, sender, sendResponse) => {
+    console.log("Message receieved:", message);
     const syncButton = document.getElementById(CUSTOM_DIV_ID);
 
     if(message.type === "auth"){

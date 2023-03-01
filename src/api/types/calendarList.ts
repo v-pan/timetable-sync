@@ -1,3 +1,5 @@
+import { etag } from "./etag";
+
 export interface ListParams {
     /**
      * Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.
@@ -37,7 +39,134 @@ export interface ListParams {
 }
 
 export interface CalendarList {
+    /**
+     * Type of the collection
+     */
     kind: string
+    /**
+     * ETag of the collection.
+     */
     etag: string
+    /**
+     * Token used to access the next page of this result. Omitted if no further results are available, in which case nextSyncToken is provided.
+     */
+    nextPageToken?: string,
+    /**
+     * Token used at a later point in time to retrieve only the entries that have changed since this result was returned. Omitted if further results are available, in which case nextPageToken is provided.
+     */
+    nextSyncToken?: string,
+    /**
+     * Calendars that are present on the user's calendar list.
+     */
+    items: CalendarListEntry[]
+}
 
+export interface CalendarListEntry {
+    /**
+     * Type of the resource
+     */
+    kind: "calendar#calendarListEntry",
+    /**
+     * ETag of the resource.
+     */
+    etag: etag,
+    /**
+     * Identifier of the calendar.
+     */
+    id: string,
+    /**
+     * Title of the calendar.
+     */
+    summary: string,
+    /**
+     * Description of the calendar.
+     */
+    description: string,
+    /**
+     * Geographic location of the calendar as free-form text.
+     */
+    location?: string,
+    /**
+     * The time zone of the calendar.
+     */
+    timeZone?: string,
+    /**
+     * The summary that the authenticated user has set for this calendar.
+     */
+    summaryOverride?: string,
+    /**
+     * The color of the calendar. This is an ID referring to an entry in the calendar section of the colors definition. This property is superseded by the backgroundColor and foregroundColor properties and can be ignored when using these properties.
+     */
+    colorId?: string,
+    /**
+     * The main color of the calendar in the hexadecimal format "#0088aa". This property supersedes the index-based colorId property.
+     */
+    backgroundColor?: string,
+    /**
+     * The foreground color of the calendar in the hexadecimal format "#ffffff". This property supersedes the index-based colorId property.
+     */
+    foregroundColor?: string,
+    /**
+     * Whether the calendar has been hidden from the list. The attribute is only returned when the calendar is hidden, in which case the value is true.
+     */
+    hidden?: true,
+    /**
+     * Whether the calendar content shows up in the calendar UI. The default is False.
+     */
+    selected?: boolean,
+    /**
+     * The effective access role that the authenticated user has on the calendar.
+     */
+    accessRole: "freeBusyReader" | "owner" | "reader" | "writer",
+    /**
+     * The default reminders that the authenticated user has for this calendar.
+     */
+    defaultReminders: [
+        {
+            /**
+             * The method used by this reminder. Required when adding a reminder.
+             */
+            method: "email" | "popup",
+            /**
+             * Number of minutes before the start of the event when the reminder should trigger. Valid values are between 0 and 40320 (4 weeks in minutes). Required when adding a reminder.
+             */
+            minutes: number
+        }
+    ],
+    /**
+     * The notifications that the authenticated user is receiving for this calendar.
+     */
+    notificationSettings: {
+        /**
+         * The list of notifications set for this calendar.
+         */
+        notifications: [
+            {
+                /**
+                 * The type of notification.  Required when adding a notification.
+                 */
+                type: "eventCreation" | "eventChange" | "eventCancellation" | "eventResponse" | "agenda",
+                /**
+                 * The method used to deliver the notification. Required when adding a notification.
+                 */
+                method: "email"
+            }
+        ]
+    },
+    primary: boolean,
+    /**
+     * Whether this calendar list entry has been deleted from the calendar list. The default is False.
+     */
+    deleted?: boolean,
+    /**
+     * Conferencing properties for this calendar, for example what types of conferences are allowed.
+     */
+    conferenceProperties: {
+        /**
+         * The types of conference solutions that are supported for this calendar. 
+         */
+      allowedConferenceSolutionTypes?: [
+        "eventHangout" | "eventNamedHangout" | "hangoutsMeet"
+      ]
+    }
 }
