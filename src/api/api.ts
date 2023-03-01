@@ -32,7 +32,6 @@ export const request = async (accessToken: string, relativeUrl: string, params?:
     // Append access token to request header
     const requestHeaders = new Headers(options.headers);
     requestHeaders.append("Authorization", `Bearer ${accessToken}`);
-    // requestHeaders.append("Access-Control-Allow-Origin", "*");
     options.headers = requestHeaders;
 
     const request = new Request(requestUrl, options);

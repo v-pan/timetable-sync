@@ -1,4 +1,3 @@
-import { v4 as generateUUID } from "uuid";
 import { ListParams } from "./api/types/calendarList";
 
 export const sendToBackend = async (message: Message, options?: browser.runtime._SendMessageOptions) => {

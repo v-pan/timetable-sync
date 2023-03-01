@@ -1,6 +1,4 @@
-// document.body.style.border = "5px solid red";
-
-import { Message, APIRequest, sendToBackend } from "./message";
+import { Message, APIRequest } from "./message";
 
 const CUSTOM_DIV_ID = "custom-toolbar-button-322d51ce";
 let intervalId: number | undefined = undefined;

@@ -6,8 +6,7 @@
   "dependencies": {
     "@types/firefox-webext-browser": "^94.0.1",
     "parcel": "^2.8.2",
-    "typescript": "^4.9.4",
-    "uuid": "^9.0.0"
+    "typescript": "^4.9.4"
   },
   "scripts": {
     "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",

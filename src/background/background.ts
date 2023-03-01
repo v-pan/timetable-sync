@@ -4,12 +4,6 @@ import { getAccessToken } from "./authorise";
 
 let accessToken: string | undefined = undefined;
 
-const respondToMessage = (message_id: string, response: any) => {
-    document.dispatchEvent(
-        new CustomEvent(message_id, { detail: response })
-    );
-}
-
 browser.runtime.onMessage.addListener(async (message: Message, sender, sendResponse) => {
     console.log("Message receieved:", message)
     switch (message.type) {
