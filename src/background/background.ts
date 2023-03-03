@@ -1,4 +1,5 @@
-import { list } from "../api/calendarList";
+import * as calendarList from "../api/calendarList";
+import * as event from "../api/event";
 import { sendToFrontend, Message } from "../message";
 import { getAccessToken } from "./authorise";
 
@@ -36,11 +37,22 @@ browser.runtime.onConnect.addListener(async port => {
                     switch (message.body.method) {
                         case "list":
                             console.log(accessToken);
-                            const json = await list(accessToken);
+                            const json = await calendarList.list(accessToken);
                             console.log("JSON:", json);
                             port.postMessage(json);
                             break;
                     }
+                    break;
+                case "event":
+                    switch (message.body.method) {
+                        case "insert":
+                            console.log("inserting", message.body);
+                            const json = await event.insert(accessToken, message.body.params, message.body.body);
+                            console.log("JSON:", json);
+                            port.postMessage(json as any);
+                            break;
+                    }
+                    break;
             }
         }
     })

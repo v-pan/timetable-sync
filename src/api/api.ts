@@ -6,7 +6,7 @@
 
 const REQUEST_BASE_URL = "https://www.googleapis.com/calendar/v3";
 
-export const request = async (accessToken: string, relativeUrl: string, params?: any, options: RequestInit = {}) => {
+export const request = async (accessToken: string, relativeUrl: string, params?: any, body?: any, options: RequestInit = {}) => {
     if (relativeUrl.startsWith("/")) {
         relativeUrl = relativeUrl.slice(1);
     }
@@ -23,18 +23,26 @@ export const request = async (accessToken: string, relativeUrl: string, params?:
                 case "string":
                     requestUrl.searchParams.append(key, value);
                     break;
+                case "undefined":
+                    break;
                 default:
                     throw Error("Type not serialisable");
             }
         });
     }
 
-    // Append access token to request header
     const requestHeaders = new Headers(options.headers);
+
+    if (body) {
+        requestHeaders.append("Content-Type", "application/json");
+        options.method = "POST"
+        options.body = JSON.stringify(body);
+    }
+
+    // Append access token to request header
     requestHeaders.append("Authorization", `Bearer ${accessToken}`);
     options.headers = requestHeaders;
 
     const request = new Request(requestUrl, options);
-
-    return fetch(request)
+    return fetch(request);
 }

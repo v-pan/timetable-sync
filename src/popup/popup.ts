@@ -11,7 +11,19 @@ let hasAuth: boolean = false;
 const selectCalendar = async (calendar: CalendarListEntry) => {
     // TODO: Verify the user has writer | owner permissions to the selected calendar. Show an error if not
     // await sendToBackend({type: "calendar_select", body: { listEntry: calendar }});
-
+    const date = new Date();
+    const currentTime = date.toISOString();
+    date.setHours(date.getHours() + 1);
+    const endTime = date.toISOString();
+    const event = (await backendRequest({resource: "event", method: "insert", params: { calendarId: calendar.id }, body: {
+        start: {
+            dateTime: currentTime
+        },
+        end: {
+            dateTime: endTime
+        }
+    }})) as Event;
+    console.log(event);
 }
 
 const showCalendarList = async () => {
@@ -28,7 +40,11 @@ const showCalendarList = async () => {
         const anchor = document.createElement("a");
 
         anchor!!.innerHTML = entry.summary;
-        anchor.addEventListener("click", () => selectCalendar(entry));
+        anchor.href = "";
+        anchor.addEventListener("click", e => {
+            e.preventDefault();
+            selectCalendar(entry);
+        });
         
         listItem.appendChild(anchor);
         list!!.appendChild(listItem);
@@ -43,7 +59,7 @@ authButton?.addEventListener("click", async (ev: MouseEvent) => {
 
     await sendToBackend({type: "auth", body: { status: "auth_start" }});
 
-    showCalendarList();
+    await showCalendarList();
 });
 
 signOutButton?.addEventListener("click", async () => {

@@ -1,4 +1,5 @@
 import { etag } from "./etag";
+import { Reminder } from "./reminder";
 
 export interface ListParams {
     /**
@@ -65,15 +66,15 @@ export interface CalendarListEntry {
     /**
      * Type of the resource
      */
-    kind: "calendar#calendarListEntry",
+    readonly kind: "calendar#calendarListEntry",
     /**
      * ETag of the resource.
      */
-    etag: etag,
+    readonly etag: etag,
     /**
      * Identifier of the calendar.
      */
-    id: string,
+    readonly id: string,
     /**
      * Title of the calendar.
      */
@@ -81,15 +82,15 @@ export interface CalendarListEntry {
     /**
      * Description of the calendar.
      */
-    description: string,
+    readonly description: string,
     /**
      * Geographic location of the calendar as free-form text.
      */
-    location?: string,
+    readonly location?: string,
     /**
      * The time zone of the calendar.
      */
-    timeZone?: string,
+    readonly timeZone?: string,
     /**
      * The summary that the authenticated user has set for this calendar.
      */
@@ -117,22 +118,11 @@ export interface CalendarListEntry {
     /**
      * The effective access role that the authenticated user has on the calendar.
      */
-    accessRole: "freeBusyReader" | "owner" | "reader" | "writer",
+    readonly accessRole: "freeBusyReader" | "owner" | "reader" | "writer",
     /**
      * The default reminders that the authenticated user has for this calendar.
      */
-    defaultReminders: [
-        {
-            /**
-             * The method used by this reminder. Required when adding a reminder.
-             */
-            method: "email" | "popup",
-            /**
-             * Number of minutes before the start of the event when the reminder should trigger. Valid values are between 0 and 40320 (4 weeks in minutes). Required when adding a reminder.
-             */
-            minutes: number
-        }
-    ],
+    defaultReminders: Reminder[],
     /**
      * The notifications that the authenticated user is receiving for this calendar.
      */
@@ -140,7 +130,7 @@ export interface CalendarListEntry {
         /**
          * The list of notifications set for this calendar.
          */
-        notifications: [
+        readonly notifications: [
             {
                 /**
                  * The type of notification.  Required when adding a notification.
@@ -153,19 +143,22 @@ export interface CalendarListEntry {
             }
         ]
     },
-    primary: boolean,
+    /**
+     * Whether the calendar is the primary calendar of the authenticated user. The default is False.
+     */
+    readonly primary?: boolean,
     /**
      * Whether this calendar list entry has been deleted from the calendar list. The default is False.
      */
-    deleted?: boolean,
+    readonly deleted?: boolean,
     /**
      * Conferencing properties for this calendar, for example what types of conferences are allowed.
      */
-    conferenceProperties: {
+    readonly conferenceProperties: {
         /**
          * The types of conference solutions that are supported for this calendar. 
          */
-      allowedConferenceSolutionTypes?: [
+      readonly allowedConferenceSolutionTypes?: [
         "eventHangout" | "eventNamedHangout" | "hangoutsMeet"
       ]
     }

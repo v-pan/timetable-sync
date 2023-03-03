@@ -1,4 +1,5 @@
 import { CalendarListEntry, ListParams } from "./api/types/calendarList";
+import { InsertBody, InsertParams } from "./api/types/event";
 
 export const sendToBackend = async (message: Message, options?: browser.runtime._SendMessageOptions) => {
     await browser.runtime.sendMessage(message, options);
@@ -47,4 +48,5 @@ export type AuthBody =
 { status: "auth_start" } | 
 { status: "auth_revoked" }
 
-export type APIRequest = { resource: "calendarList", method: "list", params?: ListParams }
+export type APIRequest = { resource: "calendarList", method: "list", params?: ListParams } |
+{ resource: "event", method: "insert", params: InsertParams, body: InsertBody }
