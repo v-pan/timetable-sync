@@ -54,6 +54,11 @@ browser.runtime.onConnect.addListener(async port => {
                     }
                     break;
             }
+        } else if (message.type === "fetch") {
+            const res = await fetch(message.url, message.options);
+            const json = await res.json();
+            console.log("JSON:", json);
+            port.postMessage(json as any);
         }
     })
 })

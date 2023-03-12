@@ -41,7 +41,23 @@ export const backendRequest = (request: APIRequest) => {
     return promise;
 }
 
-export type Message = { type: "auth", body: AuthBody } | { type: "request", body: APIRequest } | { type: "calendar_select", body: { listEntry: CalendarListEntry }}
+export const backendFetch = async (url: string | URL, options?: RequestInit) => {
+    console.log("Fetching...")
+    const port = browser.runtime.connect();
+
+    let promise = new Promise((resolve, _) => {
+        const callback = response => resolve(response);
+
+        port.onMessage.addListener(callback);
+    });
+
+    // Send the request to the backend
+    port.postMessage({ type: "fetch", url, options });
+
+    return promise;
+}
+
+export type Message = { type: "auth", body: AuthBody } | { type: "request", body: APIRequest } | { type: "calendar_select", body: { listEntry: CalendarListEntry }} | { type: "fetch", url: string | URL, options?: RequestInit }
 
 export type AuthBody = 
 { status: "auth_finished" } |
